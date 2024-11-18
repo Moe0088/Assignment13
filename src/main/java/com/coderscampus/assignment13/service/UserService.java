@@ -13,6 +13,7 @@ import com.coderscampus.assignment13.domain.Account;
 import com.coderscampus.assignment13.domain.User;
 import com.coderscampus.assignment13.repository.AccountRepository;
 import com.coderscampus.assignment13.repository.UserRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserService {
@@ -51,6 +52,7 @@ public class UserService {
         return userOpt.orElse(new User());
     }
 
+
     public User saveUser(User user) {
         if (user.getUserId() == null) {
             Account checking = new Account();
@@ -77,15 +79,32 @@ public class UserService {
         userRepo.deleteById(userId);
     }
 
-    public User postOneUser(Long userId, User user, Address address) {
-        User exsitingUser = findById(userId);
-        exsitingUser.setName(user.getName());
-        exsitingUser.setUsername(user.getUsername());
-        exsitingUser.setAddress(address);
-        saveUser(exsitingUser);
-        return exsitingUser;
+    @Transactional
+    public User postOneUser(Long userId, User user) {
+        User existingUser = findById(userId);
 
+        // Update existing user's properties
+        existingUser.setUsername(user.getUsername());
+        existingUser.setName(user.getName());
+        existingUser.setPassword(user.getPassword());
 
+        if (existingUser.getAddress() == null) {
+            existingUser.setAddress(new Address());
+        }
+        existingUser.getAddress().setUser(existingUser);
+        if (user.getAddress() != null) {
+            // Update address properties instead of trying to set a new address object
+            existingUser.getAddress().setAddressLine1(user.getAddress().getAddressLine1());
+            existingUser.getAddress().setAddressLine2(user.getAddress().getAddressLine2());
+            existingUser.getAddress().setCity(user.getAddress().getCity());
+            existingUser.getAddress().setRegion(user.getAddress().getRegion());
+            existingUser.getAddress().setCountry(user.getAddress().getCountry());
+            existingUser.getAddress().setZipCode(user.getAddress().getZipCode());
+        }
+        return userRepo.save(existingUser);
     }
 
+
 }
+
+

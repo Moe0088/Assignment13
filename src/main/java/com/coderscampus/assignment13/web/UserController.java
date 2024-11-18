@@ -3,6 +3,7 @@ package com.coderscampus.assignment13.web;
 import java.util.Arrays;
 import java.util.Set;
 
+import com.coderscampus.assignment13.domain.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -56,9 +57,7 @@ public class UserController {
 
     @PostMapping("/users/{userId}")
     public String postOneUser(@PathVariable Long userId, User user, ModelMap model) {
-        User postUser = userService.postOneUser(userId, user, user.getAddress());
-       model.addAttribute("user",  postUser);
-       model.addAttribute("address", postUser.getAddress());
+        User postUser = userService.postOneUser(userId, user);
         return "redirect:/users/" + postUser.getUserId();
     }
 
