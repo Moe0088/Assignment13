@@ -22,9 +22,7 @@ public class UserController {
 
     @GetMapping("/register")
     public String getCreateUser(ModelMap model) {
-
         model.put("user", new User());
-
         return "register";
     }
 
@@ -38,12 +36,10 @@ public class UserController {
     @GetMapping("/users")
     public String getAllUsers(ModelMap model) {
         Set<User> users = userService.findAll();
-
         model.put("users", users);
         if (users.size() == 1) {
             model.put("user", users.iterator().next());
         }
-
         return "users";
     }
 
@@ -57,7 +53,7 @@ public class UserController {
 
     @PostMapping("/users/{userId}")
     public String postOneUser(@PathVariable Long userId, User user, ModelMap model) {
-        User postUser = userService.postOneUser(userId, user);
+        User postUser = userService.updateOneUser(userId, user);
         return "redirect:/users/" + postUser.getUserId();
     }
 

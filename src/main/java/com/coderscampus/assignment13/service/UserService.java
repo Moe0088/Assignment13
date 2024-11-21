@@ -70,7 +70,6 @@ public class UserService {
         if (user.getAddress() != null) {
             Address address = user.getAddress();
             address.setUser(user);
-
         }
         return userRepo.save(user);
     }
@@ -80,7 +79,7 @@ public class UserService {
     }
 
     @Transactional
-    public User postOneUser(Long userId, User user) {
+    public User updateOneUser(Long userId, User user) {
         User existingUser = findById(userId);
 
         // Update existing user's properties

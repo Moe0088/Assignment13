@@ -33,20 +33,20 @@ public class AccountController {
 
     @PostMapping("/users/{userId}/accounts")
     public String postOneAccount(@PathVariable Long userId, ModelMap model) {
-        // Find the user by ID
+
         User user = userService.findById(userId);
 
-        // Create a new account
+
         Account newAccount = new Account();
         int accountNumber = user.getAccounts().size() + 1; // Generate a new account number based on user accounts count
         newAccount.setAccountName("Account#" + accountNumber);
         newAccount.getUsers().add(user);
         user.getAccounts().add(newAccount);
 
-        // Save the new account
+
         accountService.save(newAccount);
 
-        // Redirect to the newly created account page for editing
+
         return "redirect:/users/" + userId + "/accounts/" + newAccount.getAccountId();
     }
 
