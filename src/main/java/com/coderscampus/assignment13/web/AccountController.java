@@ -36,13 +36,16 @@ public class AccountController {
 
         User user = userService.findById(userId);
 
+
         Account newAccount = new Account();
         int accountNumber = user.getAccounts().size() + 1;
         newAccount.setAccountName("Account#" + accountNumber);
         newAccount.getUsers().add(user);
         user.getAccounts().add(newAccount);
 
+
         accountService.save(newAccount);
+
 
         return "redirect:/users/" + userId + "/accounts/" + newAccount.getAccountId();
     }

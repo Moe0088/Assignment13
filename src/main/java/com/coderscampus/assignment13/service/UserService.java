@@ -82,17 +82,21 @@ public class UserService {
     public User updateOneUser(Long userId, User user) {
         User existingUser = findById(userId);
 
-        // Update existing user's properties
+
         existingUser.setUsername(user.getUsername());
         existingUser.setName(user.getName());
-        existingUser.setPassword(user.getPassword());
+
+
+        if (existingUser.getPassword() != null && existingUser.getPassword().isEmpty()) {
+            existingUser.setPassword(user.getPassword());
+        }
 
         if (existingUser.getAddress() == null) {
             existingUser.setAddress(new Address());
         }
         existingUser.getAddress().setUser(existingUser);
         if (user.getAddress() != null) {
-            // Update address properties instead of trying to set a new address object
+
             existingUser.getAddress().setAddressLine1(user.getAddress().getAddressLine1());
             existingUser.getAddress().setAddressLine2(user.getAddress().getAddressLine2());
             existingUser.getAddress().setCity(user.getAddress().getCity());
