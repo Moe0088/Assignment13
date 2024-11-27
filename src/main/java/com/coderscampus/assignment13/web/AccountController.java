@@ -38,7 +38,7 @@ public class AccountController {
 
 
         Account newAccount = new Account();
-        int accountNumber = user.getAccounts().size() + 1;
+        int accountNumber = user.getAccounts().size() + 1; // Generate a new account number based on user accounts count
         newAccount.setAccountName("Account#" + accountNumber);
         newAccount.getUsers().add(user);
         user.getAccounts().add(newAccount);

@@ -87,7 +87,7 @@ public class UserService {
         existingUser.setName(user.getName());
 
 
-        if (existingUser.getPassword() != null && existingUser.getPassword().isEmpty()) {
+        if (user.getPassword() != null && !user.getPassword().isEmpty()) {
             existingUser.setPassword(user.getPassword());
         }
 
